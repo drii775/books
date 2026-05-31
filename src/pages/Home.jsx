@@ -1,7 +1,9 @@
 export default function Home() {
   return (
     <div className="flex justify-center items-center h-200">
-      <p>HOME PAGE</p>
+      <p>Dashboard</p>
+      <p>Read Statistic...</p>
+      <p>Favorite Rank</p>
     </div>
   );
 }

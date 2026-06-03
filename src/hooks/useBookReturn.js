@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { fetchBookReturns } from "../services/supabaseService";
 
 export default function useBookReturns() {
-
   const [bookReturns, setBookReturns] = useState([]);
 
   async function loadData() {
-
     const { data } = await fetchBookReturns();
 
     if (data) {
@@ -15,9 +13,7 @@ export default function useBookReturns() {
   }
 
   useEffect(() => {
-
     async function init() {
-
       const { data } = await fetchBookReturns();
 
       if (data) {
@@ -26,11 +22,10 @@ export default function useBookReturns() {
     }
 
     init();
-
   }, []);
 
   return {
     bookReturns,
-    loadData
+    loadData,
   };
 }

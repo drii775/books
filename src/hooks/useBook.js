@@ -2,14 +2,11 @@ import { useEffect, useState } from "react";
 import { fetchBooks } from "../services/bookService";
 
 export default function useBooks() {
-
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
-
     async function loadBooks() {
-
       const { data } = await fetchBooks();
 
       if (data) {
@@ -23,12 +20,11 @@ export default function useBooks() {
     }
 
     loadBooks();
-
   }, []);
 
   return {
     books,
     selectedBook,
-    setSelectedBook
+    setSelectedBook,
   };
 }

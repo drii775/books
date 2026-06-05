@@ -36,7 +36,7 @@ export default function Table({
       </div>
 
       <div className="flex-1 rounded-lg border p-5 shadow-md">
-        <table className="table-fixed w-full border-0">
+        <table className="w-full border-0">
           <thead>
             <tr className="border-b-2 ">
               <th className="p-2 w-10">No</th>

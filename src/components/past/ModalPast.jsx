@@ -18,7 +18,7 @@ const fields = [
   },
 ];
 
-export default function AddPast({ showForm, setShowForm }) {
+export default function ModalPast({ showForm, setShowForm }) {
   // const nodeRef = useRef(null);
 
   if (!showForm) return null;

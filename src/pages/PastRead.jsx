@@ -1,16 +1,16 @@
 import { useState } from "react";
 
-import PastBook from "../components/past/PastBook";
+import PastBookList from "../components/past/PastBookList";
 import PastDetail from "../components/past/PastDetail";
-import AddPast from "../components/past/AddPast";
+import ModalPast from "../components/past/ModalPast";
 
 export default function Detail() {
   const [showForm, setShowForm] = useState(false);
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 justify-around gap-10 py-5">
-      <PastBook setShowForm={setShowForm} />
+    <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] justify-around gap-10 py-5">
+      <PastBookList setShowForm={setShowForm} />
       <PastDetail />
-      <AddPast showForm={showForm} setShowForm={setShowForm} />
+      <ModalPast showForm={showForm} setShowForm={setShowForm} />
     </div>
   );
 }

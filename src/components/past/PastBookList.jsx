@@ -38,7 +38,7 @@ const pastRead = [
   },
 ];
 
-export default function PastBook({ setShowForm }) {
+export default function PastBookList({ setShowForm }) {
   return (
     // <div className="flex flex-col gap-5">
     //   <div className="flex justify-end">
@@ -69,11 +69,11 @@ export default function PastBook({ setShowForm }) {
       setShowForm={setShowForm}
       headers={["Title", "Author", "Owner"]}
       data={pastRead}
-      renderRow={(book, index) => (
+      renderRow={(pastRead, index) => (
         <RowBook
-          key={book.id}
+          key={pastRead.id}
           number={index + 1}
-          values={[book.title, book.author, book.owner]}
+          values={[pastRead.title, pastRead.author, pastRead.owner]}
         />
       )}
     />

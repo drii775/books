@@ -1,6 +1,7 @@
 import Navigation from "./components/Navigation";
 import Router from "./routes/Router";
 // import { useBookReturns } from "./hooks/useBookReturns";
+import { LoadingProvider } from "./context/LoadingProvider";
 
 import "./App.css";
 
@@ -10,7 +11,9 @@ function App() {
     <>
       <div className="container mx-auto px-4 py-3">
         <Navigation />
-        <Router />
+        <LoadingProvider>
+          <Router />
+        </LoadingProvider>
       </div>
     </>
   );

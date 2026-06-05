@@ -13,6 +13,7 @@ export default function Books() {
   const [mode, setMode] = useState("add");
   const { books, selectedBook, setSelectedBook } = useBook();
   const { monitoring, insight, activityResult } = useBookDetail(selectedBook);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 justify-around gap-10 py-5">
       <BookList

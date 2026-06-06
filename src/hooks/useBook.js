@@ -62,6 +62,8 @@ export function useBookDetail(selectedBook) {
         setInsight(insightResult.data || []);
         setMonitoring(monitoringResult.data || []);
         setActivityResult(activityResult || []);
+      } catch (err) {
+        console.log(err.message);
       } finally {
         setIsLoading(false);
       }
@@ -71,6 +73,7 @@ export function useBookDetail(selectedBook) {
 
     async function loadDetail() {
       const detailResult = await fetchBookDetail(selectedBook.id);
+
       if (detailResult.data) {
         setDetail(detailResult.data);
       }

@@ -2,7 +2,7 @@ export default function RowBook({ number, values, selectBook }) {
   return (
     <tr
       onClick={selectBook}
-      className="border-b hover:bg-gray-500/50 cursor-pointer"
+      className="border-b border-[#cf455cb1] hover:bg-[#fed8d8] cursor-pointer"
     >
       <td className="p-2 text-center">{number}</td>
 

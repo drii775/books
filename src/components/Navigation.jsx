@@ -16,7 +16,7 @@ export default function Navigation() {
   }, []);
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all flex justify-start gap-5 py-2 ${scrolled ? "bg-[rgb(224,154,154)] py-3" : "bg-transparent"}`}
+      className={`sticky top-0 z-50 transition-all flex justify-start gap-5 py-2 ${scrolled ? "bg-[#fce3e3] py-3" : "bg-transparent"}`}
     >
       <div>
         <h1 className="text-4xl">
@@ -28,13 +28,13 @@ export default function Navigation() {
       <div className="flex gap-5">
         <button
           onClick={() => navigate("/pastread")}
-          className="w-20 rounded-lg transparent cursor-pointer hover:bg-red-500/50"
+          className="w-20 rounded-md transparent cursor-pointer hover:bg-[#fed8d8]"
         >
           Past Read
         </button>
         <button
           onClick={() => navigate("/books")}
-          className="w-20 rounded-lg transparent cursor-pointer hover:bg-red-500/50"
+          className="w-20 rounded-md transparent cursor-pointer hover:bg-[#fed8d8]"
         >
           Books
         </button>

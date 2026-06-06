@@ -1,14 +1,8 @@
 import { useState } from "react";
-import { LoadingContext } from "../context/LoadingContext";
+import { LoadingContext } from "./LoadingContext";
 
 export function LoadingProvider({ children }) {
-  const [isLoading, setIsLoading] = useState({
-    table: false,
-    detail: false,
-    insight: false,
-    condition: false,
-  });
-
+  const [isLoading, setIsLoading] = useState({});
   return (
     <LoadingContext.Provider value={{ isLoading, setIsLoading }}>
       {children}

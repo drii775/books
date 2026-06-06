@@ -1,9 +1,6 @@
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
 
-import Loader from "../../Loader";
-import { useLoading } from "../../../hooks/useLoading";
-
 export default function Table({
   setShowBookForm,
   setMode,
@@ -11,7 +8,6 @@ export default function Table({
   data,
   renderRow,
 }) {
-  const { isLoading } = useLoading();
   return (
     <div className="flex flex-col gap-8">
       <div className="flex justify-end ">
@@ -48,17 +44,12 @@ export default function Table({
             </tr>
           </thead>
           <tbody>
-            {isLoading.table ? (
-              <tr>
-                <td colSpan={headers.length + 1} className="py-10">
-                  <div className="flex justify-center">
-                    <Loader />
-                  </div>
-                </td>
-              </tr>
-            ) : (
-              data.map((item, index) => renderRow(item, index))
-            )}
+            <tr>
+              <td>
+                <div className="flex justify-center"></div>
+              </td>
+            </tr>
+            {data.map((item, index) => renderRow(item, index))}
           </tbody>
         </table>
       </div>

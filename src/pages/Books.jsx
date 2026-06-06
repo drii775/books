@@ -2,8 +2,9 @@ import { useState } from "react";
 
 import { BookList, BookDetail } from "../components/books/BookList";
 import { ModalBook, ModalInsight } from "../components/books/ModalBook";
-import useBook from "../hooks/useBook";
-import useBookDetail from "../hooks/useBookDetail";
+import { useBook, useBookDetail } from "../hooks/useBook";
+import { useLoading } from "../hooks/useLoading";
+import Loader from "../components/Loader";
 
 export default function Books() {
   const [showBookForm, setShowBookForm] = useState(false);
@@ -11,7 +12,11 @@ export default function Books() {
   const [mode, setMode] = useState("add");
   const { books, selectedBook, setSelectedBook } = useBook();
   const { monitoring, insight, activityResult } = useBookDetail(selectedBook);
+  const { isLoading } = useLoading();
 
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] justify-around gap-10 py-5">

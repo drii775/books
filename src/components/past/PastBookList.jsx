@@ -1,7 +1,6 @@
 // import { IoIosAddCircleOutline } from "react-icons/io";
 
-import Table from "../components/table/Table";
-import RowBook from "../components/table/RowBook";
+import { Table, RowBook } from "../Table";
 
 const pastRead = [
   {

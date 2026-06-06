@@ -1,4 +1,4 @@
-import AddForm from "../components/modal/AddForm";
+import { ModalForm } from "../ModalForm";
 
 const fields = [
   {
@@ -23,7 +23,7 @@ export default function ModalPast({ showForm, setShowForm }) {
 
   if (!showForm) return null;
   return (
-    <AddForm
+    <ModalForm
       showForm={showForm}
       setShowForm={setShowForm}
       fields={fields}

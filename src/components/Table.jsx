@@ -1,13 +1,7 @@
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
 
-export default function Table({
-  setShowBookForm,
-  setMode,
-  headers,
-  data,
-  renderRow,
-}) {
+export function Table({ setShowBookForm, setMode, headers, data, renderRow }) {
   return (
     <div className="flex flex-col gap-8">
       <div className="flex justify-end ">
@@ -54,5 +48,22 @@ export default function Table({
         </table>
       </div>
     </div>
+  );
+}
+
+export function RowBook({ number, values, selectBook }) {
+  return (
+    <tr
+      onClick={selectBook}
+      className="border-b border-[#cf455cb1] hover:bg-[#fed8d8] cursor-pointer"
+    >
+      <td className="p-2 text-center">{number}</td>
+
+      {values.map((value, index) => (
+        <td key={index} className="px-5 wrap-break-word">
+          {value}
+        </td>
+      ))}
+    </tr>
   );
 }

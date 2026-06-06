@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 
-import AddForm from "../components/modal/AddForm";
+import { ModalForm } from "../ModalForm";
 
 const bookFields = [
   {
@@ -64,7 +64,7 @@ export function ModalBook({
   if (!showBookForm) return null;
 
   return (
-    <AddForm
+    <ModalForm
       mode={mode}
       showForm={showBookForm}
       setShowForm={setShowBookForm}
@@ -127,7 +127,7 @@ export function ModalInsight({
   if (!showInsightForm) return null;
 
   return (
-    <AddForm
+    <ModalForm
       mode={mode}
       showForm={showInsightForm}
       setShowForm={setShowInsightForm}

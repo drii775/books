@@ -1,9 +1,6 @@
 import { IoIosAddCircleOutline } from "react-icons/io";
 
-import Table from "../components/table/Table";
-import RowBook from "../components/table/RowBook";
-// import Loader from "../Loader";
-// import { useLoading } from "../../hooks/useLoading";
+import { Table, RowBook } from "../Table";
 import "../../index.css";
 
 export function BookList({ setShowBookForm, setMode, books, setSelectedBook }) {

@@ -2,12 +2,10 @@ import { MdDownloadDone } from "react-icons/md";
 import { IoIosClose } from "react-icons/io";
 import { PiConfetti } from "react-icons/pi";
 
-import InputField from "./InputField";
-
 import { useRef } from "react";
 import Draggable from "react-draggable";
 
-export default function AddForm({
+export function AddForm({
   showForm,
   setShowForm,
   fields,
@@ -64,5 +62,23 @@ export default function AddForm({
         </form>
       </div>
     </Draggable>
+  );
+}
+
+export function InputField({ id, label, type, value, onChange }) {
+  return (
+    <div className="mb-4">
+      <label htmlFor={id} className="block mb-1">
+        {label}
+      </label>
+
+      <input
+        id={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        className="border border-red-300 px-3 py-2 w-full rounded focus:outline-none focus:border-red-700"
+      />
+    </div>
   );
 }

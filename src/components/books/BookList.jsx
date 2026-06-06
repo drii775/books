@@ -2,8 +2,8 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 
 import Table from "../components/table/Table";
 import RowBook from "../components/table/RowBook";
-import Loader from "../Loader";
-import { useLoading } from "../../hooks/useLoading";
+// import Loader from "../Loader";
+// import { useLoading } from "../../hooks/useLoading";
 import "../../index.css";
 
 export function BookList({ setShowBookForm, setMode, books, setSelectedBook }) {
@@ -32,9 +32,8 @@ export function BookDetail({
   setMode,
   activityResult,
 }) {
-  const { isLoading } = useLoading();
   return (
-    <div className="flex flex-col gap-5 border p-5 rounded-md shadow-lg">
+    <div className="h-180 flex flex-col gap-5 border p-5 rounded-md shadow-lg">
       {/* <div className="flex justify-end">
         <button className="flex justify-center w-16 rounded-full py-2 cursor-pointer text-5xl hover:bg-gray-500/50">
           <CiEdit />
@@ -42,55 +41,47 @@ export function BookDetail({
       </div> */}
       <div>
         <h1 className="font-bold text-xl pb-0.5">information detail</h1>
-        {isLoading.detail ? (
-          <Loader />
-        ) : (
-          <div className="border p-5 rounded-md h-35">
-            <p>Title: {selectedBook?.title}</p>
-            <p>Author: {selectedBook?.author}</p>
-            <p>Genre: {selectedBook?.genre}</p>
-            <p>
-              Price:{" "}
-              {new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-              }).format(selectedBook?.price || 0)}
-            </p>
-          </div>
-        )}
+        <div className="border p-5 rounded-md h-52">
+          <p>Title: {selectedBook?.title}</p>
+          <p>Author: {selectedBook?.author}</p>
+          <p>Genre: {selectedBook?.genre}</p>
+          <p>
+            Price:{" "}
+            {new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+            }).format(selectedBook?.price || 0)}
+          </p>
+        </div>
       </div>
       <div>
         <h1 className="font-bold text-xl pb-0.5">insight</h1>
-        {isLoading.insight ? (
-          <Loader />
-        ) : (
-          <div className="border p-5 rounded-md h-52 custom-scroll overflow-y-auto">
-            {insight.length === 0 ? (
-              <p>No insight available</p>
-            ) : (
-              <ul>
-                {insight.map((item) => (
-                  <li className="grid" key={item.id}>
-                    <p>{item.insight}</p>
-                    <p className="flex justify-end text-xs text-gray-800/30">
-                      <i>
-                        created at:
-                        {new Date(item.created_at).toLocaleString("id-ID", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </i>
-                    </p>
-                    <hr className="my-2 text-gray-800/20" />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        )}
+        <div className="border p-5 rounded-md h-52 custom-scroll overflow-y-auto">
+          {insight.length === 0 ? (
+            <p>No insight available</p>
+          ) : (
+            <ul>
+              {insight.map((item) => (
+                <li className="grid" key={item.id}>
+                  <p>{item.insight}</p>
+                  <p className="flex justify-end text-xs text-gray-800/30">
+                    <i>
+                      created at:
+                      {new Date(item.created_at).toLocaleString("id-ID", {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </i>
+                  </p>
+                  <hr className="my-2 text-gray-800/20" />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         <div className="flex justify-end">
           <button
             onClick={() => {
@@ -114,14 +105,16 @@ export function BookDetail({
       </div>
       <div>
         <h1 className="font-bold text-xl pb-0.5">Condition</h1>
-        {isLoading.condition ? (
-          <Loader />
-        ) : (
-          <p className="border p-5 rounded-md h-20">
-            {activityResult[0]?.activity_label}
-          </p>
-        )}
-        <p className="italic text-gray-800/30"></p>
+        <div className="border p-5 rounded-md h-20">
+          {activityResult ? (
+            <div>
+              <p>{activityResult[0]?.activity_label}</p>
+              <p className="italic text-gray-800/30"></p>
+            </div>
+          ) : (
+            <p>No condition information</p>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,23 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 export default function Navigation() {
   const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 0);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <nav className="relative flex justify-start gap-5 py-5">
+    <nav
+      className={`sticky top-0 z-50 transition-all flex justify-start gap-5 py-2 ${scrolled ? "bg-[rgb(224,154,154)] py-3" : "bg-transparent"}`}
+    >
       <div>
         <h1 className="text-4xl">
           <button className="cursor-pointer" onClick={() => navigate("/")}>

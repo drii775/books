@@ -5,7 +5,7 @@ import { PiConfetti } from "react-icons/pi";
 import { useRef } from "react";
 import Draggable from "react-draggable";
 
-export function AddForm({
+export function ModalForm({
   showForm,
   setShowForm,
   fields,

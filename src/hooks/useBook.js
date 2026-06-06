@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   fetchBooks,
   fetchBookDetail,
@@ -11,10 +11,17 @@ import { useLoading } from "../hooks/useLoading";
 export function useBook() {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const { setIsLoading } = useLoading();
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    async function loadBooks() {
-      const { data } = await fetchBooks();
+  const loadBooks = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const { data, error } = await fetchBooks();
+
+      if (error) {
+        throw new Error(error.message);
+      }
 
       if (data) {
         setBooks(data);
@@ -24,15 +31,30 @@ export function useBook() {
           setSelectedBook(data[0]);
         }
       }
+      setError("");
+    } catch (err) {
+      setBooks([]);
+      setSelectedBook(null);
+      if (err.message.includes("Failed to fetch")) {
+        setError(
+          "Unable to connect to server. Please check your internet connection.",
+        );
+      }
+    } finally {
+      setIsLoading(false);
     }
+  }, [setIsLoading]);
 
-    loadBooks();
-  }, []);
+  useEffect(() => {
+    void loadBooks();
+  }, [loadBooks]);
 
   return {
     books,
     selectedBook,
     setSelectedBook,
+    error,
+    loadBooks,
   };
 }
 
@@ -41,60 +63,71 @@ export function useBookDetail(selectedBook) {
   const [monitoring, setMonitoring] = useState([]);
   const [insight, setInsight] = useState([]);
   const [activityResult, setActivityResult] = useState([]);
-  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     if (!selectedBook) return;
 
     async function loadData() {
-      try {
-        setIsLoading(true);
+      const [detailResult, insightResult, monitoringResult, activityResult] =
+        await Promise.all([
+          fetchBookDetail(selectedBook.id),
+          fetchBookInsight(selectedBook.id),
+          fetchBookMonitoring(selectedBook.id),
+          fetchActivityResult(),
+        ]);
 
-        const [detailResult, insightResult, monitoringResult, activityResult] =
-          await Promise.all([
-            fetchBookDetail(selectedBook.id),
-            fetchBookInsight(selectedBook.id),
-            fetchBookMonitoring(selectedBook.id),
-            fetchActivityResult(),
-          ]);
+      // const errors = [
+      //   detailResult.error,
+      //   insightResult.error,
+      //   monitoringResult.error,
+      // ];
 
-        setDetail(detailResult.data || []);
-        setInsight(insightResult.data || []);
-        setMonitoring(monitoringResult.data || []);
-        setActivityResult(activityResult || []);
-      } finally {
-        setIsLoading(false);
-      }
+      // const firstError = errors.find(Boolean);
+
+      // if (firstError) {
+      //   throw new Error(firstError.message);
+      // }
+
+      setDetail(detailResult.data || []);
+      setInsight(insightResult.data || []);
+      setMonitoring(monitoringResult.data || []);
+      setActivityResult(activityResult || []);
+      // } catch (err) {
+      //   setError(err.message);
+      // } finally {
+      //   setIsLoading(false);
+      // }
     }
 
     loadData();
 
-    async function loadDetail() {
-      const detailResult = await fetchBookDetail(selectedBook.id);
-      if (detailResult.data) {
-        setDetail(detailResult.data);
-      }
+    // async function loadDetail() {
+    //   const detailResult = await fetchBookDetail(selectedBook.id);
 
-      const insightResult = await fetchBookInsight(selectedBook.id);
-      if (insightResult.data) {
-        setInsight(insightResult.data);
-      }
+    //   if (detailResult.data) {
+    //     setDetail(detailResult.data);
+    //   }
 
-      const monitoringResult = await fetchBookMonitoring(selectedBook.id);
-      if (monitoringResult.data) {
-        setMonitoring(monitoringResult.data);
-      }
-    }
+    //   const insightResult = await fetchBookInsight(selectedBook.id);
+    //   if (insightResult.data) {
+    //     setInsight(insightResult.data);
+    //   }
 
-    loadDetail();
+    //   const monitoringResult = await fetchBookMonitoring(selectedBook.id);
+    //   if (monitoringResult.data) {
+    //     setMonitoring(monitoringResult.data);
+    //   }
+    // }
 
-    async function loadActivityResult() {
-      const data = await fetchActivityResult();
+    // loadDetail();
 
-      setActivityResult(data);
-    }
-    loadActivityResult();
-  }, [selectedBook, setIsLoading]);
+    // async function loadActivityResult() {
+    //   const data = await fetchActivityResult();
+
+    //   setActivityResult(data);
+    // }
+    // loadActivityResult();
+  }, [selectedBook]);
 
   return {
     detail,

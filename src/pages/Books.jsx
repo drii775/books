@@ -5,17 +5,26 @@ import { ModalBook, ModalInsight } from "../components/books/ModalBook";
 import { useBook, useBookDetail } from "../hooks/useBook";
 import { useLoading } from "../hooks/useLoading";
 import Loader from "../components/Loader";
+import { ErrorMessage, EmptyMessage } from "../components/ErrorMessage";
 
 export default function Books() {
   const [showBookForm, setShowBookForm] = useState(false);
   const [showInsightForm, setShowInsightForm] = useState(false);
   const [mode, setMode] = useState("add");
-  const { books, selectedBook, setSelectedBook } = useBook();
+  const { books, selectedBook, setSelectedBook, error, loadBooks } = useBook();
   const { monitoring, insight, activityResult } = useBookDetail(selectedBook);
   const { isLoading } = useLoading();
+  console.log("Loading:", isLoading);
+  console.log("Error:", error);
 
   if (isLoading) {
     return <Loader />;
+  }
+  if (error) {
+    return <ErrorMessage message={error} onRetry={loadBooks} />;
+  }
+  if (!isLoading && !error && books.length === 0) {
+    return <EmptyMessage message="No books available" />;
   }
   return (
     <>

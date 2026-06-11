@@ -3,19 +3,26 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { Table, RowBook } from "../Table";
 import "../../index.css";
 
-export function BookList({ setShowBookForm, setMode, books, setSelectedBook }) {
+export function BookList({
+  setShowBookForm,
+  setMode,
+  books,
+  setSelectedBook,
+  onDeleteBook,
+}) {
   return (
     <Table
       setShowBookForm={setShowBookForm}
       setMode={setMode}
-      headers={["Title", "Author", "Genre"]}
+      headers={["Title", "Author", "Genre", "Action"]}
       data={books}
       renderRow={(book, index) => (
         <RowBook
           key={book.id}
           number={index + 1}
           values={[book.title, book.author, book.genre]}
-          selectBook={() => setSelectedBook(book)}
+          onselectBook={() => setSelectedBook(book)}
+          onDeleteBook={() => onDeleteBook(book)}
         />
       )}
     />

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 
-import { ModalForm } from "../ModalForm";
+import { ModalForm, ModalDelete } from "../Modal";
+import { canSubmitForm } from "../utils/form";
 
 const bookFields = [
   {
@@ -63,6 +64,7 @@ export function ModalBook({
 
   if (!showBookForm) return null;
 
+  const canSubmit = canSubmitForm(formData);
   return (
     <ModalForm
       mode={mode}
@@ -73,6 +75,7 @@ export function ModalBook({
       formData={formData}
       setFormData={setFormData}
       handleSubmit={handleSubmit}
+      canSubmit={canSubmit}
     />
   );
 }
@@ -86,9 +89,9 @@ const insightFields = [
 ];
 
 export function ModalInsight({
+  mode,
   showInsightForm,
   setShowInsightForm,
-  mode,
   selectedBook,
   selectedInsight,
 }) {
@@ -126,6 +129,8 @@ export function ModalInsight({
 
   if (!showInsightForm) return null;
 
+  const canSubmit = canSubmitForm(formData);
+
   return (
     <ModalForm
       mode={mode}
@@ -136,6 +141,47 @@ export function ModalInsight({
       formData={formData}
       setFormData={setFormData}
       handleSubmit={handleSubmit}
+      canSubmit={canSubmit}
+    />
+  );
+}
+
+export function ModalDeleteBook({
+  setBooks,
+  bookToDelete,
+  setBookToDelete,
+  showDeleteModal,
+  setShowDeleteModal,
+}) {
+  async function handleDeleteBook() {
+    if (!bookToDelete) return;
+    const { error } = await supabase
+      .from("books")
+      .delete()
+      .eq("id", bookToDelete.id);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setBooks((books) => {
+      const updateBook = books.filter((book) => book.id !== bookToDelete.id);
+      return updateBook;
+    });
+
+    setShowDeleteModal(false);
+    setBookToDelete(null);
+  }
+  return (
+    <ModalDelete
+      showDeleteModal={showDeleteModal}
+      title="Are you sure you wanna delete this book?"
+      onCancel={() => {
+        setShowDeleteModal(false);
+        setBookToDelete(null);
+      }}
+      onConfirm={handleDeleteBook}
     />
   );
 }

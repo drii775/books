@@ -1,9 +1,10 @@
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 export function Table({ setShowBookForm, setMode, headers, data, renderRow }) {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-3">
       <div className="flex justify-end ">
         <button
           onClick={() => {
@@ -25,7 +26,7 @@ export function Table({ setShowBookForm, setMode, headers, data, renderRow }) {
         </button>
       </div>
 
-      <div className="flex-1 rounded-lg border border-[#cf455cb1] p-5 shadow-md">
+      <div className="flex rounded-4xl border border-[#cf455cb1] p-5 shadow-md">
         <table className="w-full border-0">
           <thead>
             <tr className="border-b-2 border-[#cf455cb1] ">
@@ -51,19 +52,26 @@ export function Table({ setShowBookForm, setMode, headers, data, renderRow }) {
   );
 }
 
-export function RowBook({ number, values, selectBook }) {
+export function RowBook({ number, values, onselectBook, onDeleteBook }) {
   return (
     <tr
-      onClick={selectBook}
+      onClick={onselectBook}
       className="border-b border-[#cf455cb1] hover:bg-[#fed8d8] cursor-pointer"
     >
       <td className="p-2 text-center">{number}</td>
-
       {values.map((value, index) => (
         <td key={index} className="px-5 wrap-break-word">
           {value}
         </td>
       ))}
+      <td>
+        <button
+          onClick={onDeleteBook}
+          className="flex justify-center rounded-full w-6 py-1 m-auto hover:bg-[#cf455cb1] cursor-pointer"
+        >
+          <FaRegTrashAlt />
+        </button>
+      </td>
     </tr>
   );
 }

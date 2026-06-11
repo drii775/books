@@ -1,4 +1,4 @@
-import { ModalForm } from "../ModalForm";
+import { ModalForm } from "../Modal";
 
 const fields = [
   {

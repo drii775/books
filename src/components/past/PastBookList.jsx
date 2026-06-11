@@ -66,7 +66,7 @@ export default function PastBookList({ setShowForm }) {
 
     <Table
       setShowForm={setShowForm}
-      headers={["Title", "Author", "Owner"]}
+      headers={["Title", "Author", "Owner", "Action"]}
       data={pastRead}
       renderRow={(pastRead, index) => (
         <RowBook

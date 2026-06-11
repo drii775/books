@@ -1,7 +1,11 @@
 import { useState } from "react";
 
 import { BookList, BookDetail } from "../components/books/BookList";
-import { ModalBook, ModalInsight } from "../components/books/ModalBook";
+import {
+  ModalBook,
+  ModalDeleteBook,
+  ModalInsight,
+} from "../components/books/ModalBook";
 import { useBook, useBookDetail } from "../hooks/useBook";
 import { useLoading } from "../hooks/useLoading";
 import Loader from "../components/Loader";
@@ -10,12 +14,25 @@ import { ErrorMessage, EmptyMessage } from "../components/ErrorMessage";
 export default function Books() {
   const [showBookForm, setShowBookForm] = useState(false);
   const [showInsightForm, setShowInsightForm] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [mode, setMode] = useState("add");
-  const { books, selectedBook, setSelectedBook, error, loadBooks } = useBook();
-  const { monitoring, insight, activityResult } = useBookDetail(selectedBook);
+  const {
+    books,
+    setBooks,
+    selectedBook,
+    setSelectedBook,
+    error,
+    loadBooks,
+    hasLoaded,
+  } = useBook();
+  const { insight, monitoring, activityResult } = useBookDetail(selectedBook);
   const { isLoading } = useLoading();
-  console.log("Loading:", isLoading);
-  console.log("Error:", error);
+
+  const [bookToDelete, setBookToDelete] = useState(null);
+  function handleOpenDeleteModal(book) {
+    setBookToDelete(book);
+    setShowDeleteModal(true);
+  }
 
   if (isLoading) {
     return <Loader />;
@@ -23,7 +40,7 @@ export default function Books() {
   if (error) {
     return <ErrorMessage message={error} onRetry={loadBooks} />;
   }
-  if (!isLoading && !error && books.length === 0) {
+  if (hasLoaded && !error && books.length === 0) {
     return <EmptyMessage message="No books available" />;
   }
   return (
@@ -34,6 +51,7 @@ export default function Books() {
           setMode={setMode}
           books={books}
           setSelectedBook={setSelectedBook}
+          onDeleteBook={handleOpenDeleteModal}
         />
         <BookDetail
           showBookForm={showBookForm}
@@ -42,8 +60,8 @@ export default function Books() {
           setShowInsightForm={setShowInsightForm}
           setMode={setMode}
           selectedBook={selectedBook}
-          monitoring={monitoring}
           insight={insight}
+          monitoring={monitoring}
           activityResult={activityResult}
         />
       </div>
@@ -59,6 +77,13 @@ export default function Books() {
         mode={mode}
         selectedBook={selectedBook}
         selectedInsight={insight[0]}
+      />
+      <ModalDeleteBook
+        setBooks={setBooks}
+        bookToDelete={bookToDelete}
+        setBookToDelete={setBookToDelete}
+        showDeleteModal={showDeleteModal}
+        setShowDeleteModal={setShowDeleteModal}
       />
     </>
   );

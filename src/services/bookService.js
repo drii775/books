@@ -10,16 +10,26 @@ export async function fetchBooks() {
   return { data, error };
 }
 
-// Fetch detail information book
-export async function fetchBookDetail(bookId) {
-  const { data, error } = await supabase
-    .from("books")
-    .select("*")
-    .order("id", { ascending: true })
-    .eq("id", bookId);
+// export async function fetchSingleBookTitle() {
+//   const { data, error } = await supabase
+//     .from("books")
+//     .select("title")
+//     .order("id", { ascending: true })
+//     .limit(1)
+//     .single();
+//   return { data, error };
+// }
 
-  return { data, error };
-}
+// // Fetch detail information book
+// export async function fetchBookDetail(bookId) {
+//   const { data, error } = await supabase
+//     .from("books")
+//     .select("*")
+//     .order("id", { ascending: true })
+//     .eq("id", bookId);
+
+//   return { data, error };
+// }
 
 // Fetch insight by book
 export async function fetchBookInsight(bookId) {
@@ -55,3 +65,17 @@ export async function fetchActivityResult() {
 
   return data;
 }
+
+export async function fetchBookReturns() {
+  const { data, error } = await supabase
+    .from("book_returns")
+    .select("*")
+    .order("id", { ascending: false });
+
+  return { data, error };
+}
+
+// export async function fetchDeleteBook(id) {
+//   const { error } = await supabase.from("books").delete().eq("id", id);
+//   return { error };
+// }

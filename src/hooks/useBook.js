@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import {
   fetchBooks,
-  fetchBookDetail,
+  // fetchBookDetail,
+  // fetchSingleBookTitle,
   fetchBookInsight,
   fetchBookMonitoring,
   fetchActivityResult,
@@ -13,6 +14,7 @@ export function useBook() {
   const [selectedBook, setSelectedBook] = useState(null);
   const { setIsLoading } = useLoading();
   const [error, setError] = useState("");
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const loadBooks = useCallback(async () => {
     try {
@@ -28,7 +30,7 @@ export function useBook() {
 
         // auto pilih buku pertama
         if (data.length > 0) {
-          setSelectedBook(data[0]);
+          setSelectedBook(null);
         }
       }
       setError("");
@@ -41,6 +43,7 @@ export function useBook() {
         );
       }
     } finally {
+      setHasLoaded(true);
       setIsLoading(false);
     }
   }, [setIsLoading]);
@@ -49,46 +52,46 @@ export function useBook() {
     void loadBooks();
   }, [loadBooks]);
 
+  useEffect(() => {
+    if (selectedBook) {
+      document.title = `MyBook | ${selectedBook?.title}`;
+    }
+  }, [selectedBook]);
+
   return {
     books,
-    selectedBook,
-    setSelectedBook,
     error,
     loadBooks,
+    hasLoaded,
+    setBooks,
+    selectedBook,
+    setSelectedBook,
   };
 }
 
 export function useBookDetail(selectedBook) {
-  const [detail, setDetail] = useState([]);
-  const [monitoring, setMonitoring] = useState([]);
+  // const [detail, setDetail] = useState([]);
   const [insight, setInsight] = useState([]);
+  const [monitoring, setMonitoring] = useState([]);
   const [activityResult, setActivityResult] = useState([]);
 
   useEffect(() => {
     if (!selectedBook) return;
 
     async function loadData() {
-      const [detailResult, insightResult, monitoringResult, activityResult] =
-        await Promise.all([
-          fetchBookDetail(selectedBook.id),
-          fetchBookInsight(selectedBook.id),
-          fetchBookMonitoring(selectedBook.id),
-          fetchActivityResult(),
-        ]);
+      const [
+        // detailResult,
+        insightResult,
+        monitoringResult,
+        activityResult,
+      ] = await Promise.all([
+        // fetchBookDetail(selectedBook.id),
+        fetchBookInsight(selectedBook.id),
+        fetchBookMonitoring(selectedBook.id),
+        fetchActivityResult(),
+      ]);
 
-      // const errors = [
-      //   detailResult.error,
-      //   insightResult.error,
-      //   monitoringResult.error,
-      // ];
-
-      // const firstError = errors.find(Boolean);
-
-      // if (firstError) {
-      //   throw new Error(firstError.message);
-      // }
-
-      setDetail(detailResult.data || []);
+      // setDetail(detailResult.data || []);
       setInsight(insightResult.data || []);
       setMonitoring(monitoringResult.data || []);
       setActivityResult(activityResult || []);
@@ -100,39 +103,12 @@ export function useBookDetail(selectedBook) {
     }
 
     loadData();
-
-    // async function loadDetail() {
-    //   const detailResult = await fetchBookDetail(selectedBook.id);
-
-    //   if (detailResult.data) {
-    //     setDetail(detailResult.data);
-    //   }
-
-    //   const insightResult = await fetchBookInsight(selectedBook.id);
-    //   if (insightResult.data) {
-    //     setInsight(insightResult.data);
-    //   }
-
-    //   const monitoringResult = await fetchBookMonitoring(selectedBook.id);
-    //   if (monitoringResult.data) {
-    //     setMonitoring(monitoringResult.data);
-    //   }
-    // }
-
-    // loadDetail();
-
-    // async function loadActivityResult() {
-    //   const data = await fetchActivityResult();
-
-    //   setActivityResult(data);
-    // }
-    // loadActivityResult();
   }, [selectedBook]);
 
   return {
-    detail,
-    monitoring,
+    // detail,
     insight,
+    monitoring,
     activityResult,
   };
 }

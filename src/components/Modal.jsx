@@ -13,6 +13,7 @@ export function ModalForm({
   formData,
   setFormData,
   handleSubmit,
+  canSubmit,
 }) {
   const nodeRef = useRef(null);
 
@@ -21,7 +22,7 @@ export function ModalForm({
     <Draggable bounds="body" nodeRef={nodeRef} handle=".handle">
       <div
         ref={nodeRef}
-        className="fixed top-20 left-20 w-100 bg-red-200 p-5 rounded-md shadow-md"
+        className="fixed top-20 left-[40%] w-100 bg-red-200 p-5 rounded-md shadow-md"
       >
         <div className="flex justify-between items-center handle cursor-grab mb-3">
           <div className="flex items-center gap-2 text-xl">
@@ -54,7 +55,13 @@ export function ModalForm({
           <div className="flex justify-end">
             <button
               type="submit"
-              className="flex justify-center w-9 rounded-full py-2 mt-2 text-xl hover:bg-gray-500/50"
+              disabled={!canSubmit}
+              className="
+              flex justify-center w-9 rounded-full py-2 mt-2 text-xl hover:bg-[#fed8d8]
+              disabled:text-gray-500
+              disabled:hover:bg-gray-300/70
+              disabled:cursor-not-allowed
+              "
             >
               <MdDownloadDone />
             </button>
@@ -71,7 +78,6 @@ export function InputField({ id, label, type, value, onChange }) {
       <label htmlFor={id} className="block mb-1">
         {label}
       </label>
-
       <input
         id={id}
         type={type}
@@ -79,6 +85,29 @@ export function InputField({ id, label, type, value, onChange }) {
         onChange={onChange}
         className="border border-red-300 px-3 py-2 w-full rounded focus:outline-none focus:border-red-700"
       />
+    </div>
+  );
+}
+
+export function ModalDelete({ showDeleteModal, title, onCancel, onConfirm }) {
+  if (!showDeleteModal) return null;
+  return (
+    <div className="fixed top-20 left-[40%] w-80 bg-red-200 p-5 rounded-md shadow-md">
+      <p>{title}</p>
+      <div className="flex justify-end gap-3 mt-3">
+        <button
+          onClick={onCancel}
+          className="w-20 rounded-md transparent cursor-pointer hover:bg-[#fed8d8]"
+        >
+          cancel
+        </button>
+        <button
+          onClick={onConfirm}
+          className="w-20 rounded-md transparent cursor-pointer hover:bg-red-500/50"
+        >
+          delete
+        </button>
+      </div>
     </div>
   );
 }
